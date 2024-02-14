@@ -17,6 +17,11 @@ export default createVuetify({
     defaultTheme: 'dark'
   },
   defaults: {
+    VSelect: {
+      density: 'compact',
+      variant: 'outlined',
+      hideDetails: true,
+    },
     VTextField: {
       density: 'compact',
       variant: 'outlined',
@@ -27,6 +32,14 @@ export default createVuetify({
     },
     VListItem: {
       density: 'compact'
-    }
+    },
+    VTabs: {
+      color: 'primary',
+      density: 'comfortable',
+      hideSlider: true,
+    },
+    VTab: {
+      variant: 'flat'
+    },
   }
 })
