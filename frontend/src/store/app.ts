@@ -1,9 +1,11 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 
+import { Country } from '@/types/types'
+
 export const useAppStore = defineStore('app', {
   state: () => ({
-    countries: [],
+    countries: <Country[]> [],
   }),
   actions: {
     async getCountries() {

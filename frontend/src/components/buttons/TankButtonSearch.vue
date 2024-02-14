@@ -20,10 +20,10 @@
       <v-card-title>Описание танка {{ searchedTank.name }}</v-card-title>
       <v-card-subtitle>
         <v-icon :icon="tankLevelIcon" size="25" />
-        <v-icon :icon="tankTypeIcon" size="12" />
+        <v-icon :icon="tankTypeIcon" size="12" class="mr-3"/>
         
-        <v-icon icon="mdi-star" size="10" /><span class="text-green pa-1">{{ searchedTank.unlockExp }}</span>
-        <v-icon icon="mdi-currency-rub" size="10" /><span class="text-yellow pa-1">{{ searchedTank.cost }}</span>
+        <v-icon icon="mdi-star" size="10" class="pb-1" /><span class="text-green pa-1">{{ searchedTank.unlockExp }}</span>
+        <span class="text-yellow pa-1">{{ formattedCost }}</span>
       </v-card-subtitle>
       <v-card-text>
         <p>{{ searchedTank.description }}</p>
@@ -50,6 +50,8 @@ import EngineIcon from './EngineIcon.vue'
 import RadioIcon from './RadioIcon.vue'
 import SuspensionIcon from './SuspensionIcon.vue'
 
+import { Tank } from '@/types/types'
+
 export default {
   setup() {
     const tanksStore = useTanksStore()
@@ -65,23 +67,35 @@ export default {
     }
   },
   computed: {
-    buyIsDisabled() {
+    formattedCost(): string {
+      const formatter = new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'rub',
+        maximumFractionDigits: 0,
+      })
+
+      return formatter.format(this.searchedTank.cost)
+    },
+    buyIsDisabled(): boolean {
       return this.userStore.user.gold < this.searchedTank.cost
     },
-    searchedTank() {
+    searchedTank(): Tank {
       return this.tanksStore.tanks.find(tank => tank.name === this.tankName) || this.defaultTank
     },
-    tankLevelIcon() {
+    tankLevelIcon(): string {
       return `mdi-roman-numeral-${this.searchedTank.level}`
     },
-    tankTypeIcon() {
+    tankTypeIcon(): string {
       return this.tanksStore.tankTypes[this.searchedTank.type - 1].icon
     }
   },
   data() {
     return {
-      menu: false,
-      defaultTank: {
+      menu: <boolean> false,
+      defaultTank: <Tank> {
+        _id: '',
+        country: {name: '', icon: ''},
+        level: 1,
         type: 1,
         icon: '',
         name: '',
@@ -93,7 +107,7 @@ export default {
     }
   },
   methods: {
-    buyTank() {
+    buyTank(): void {
       this.userStore.buyTank(this.searchedTank)
     }
   },

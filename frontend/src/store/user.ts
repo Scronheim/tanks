@@ -1,22 +1,23 @@
-// Utilities
 import { defineStore } from 'pinia'
+
+import { Tank, UserTank } from '@/types/types'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: {
-      gold: 1000,
-      tanks: [],
+      gold: <number> 1000,
+      tanks: <UserTank[]> [],
     }
   }),
   actions: {
-    checkBeforeBuy(tank): boolean {
+    checkBeforeBuy(tank: Tank): boolean {
       const tankCost = tank.cost
       if (this.user.gold > tankCost) {
         return true
       }
       return false
     },
-    buyTank(tank) {
+    buyTank(tank: Tank) {
       if (this.checkBeforeBuy(tank)) {
         const userTank = this.user.tanks.find(userTank => userTank._id === tank._id)
         if (userTank) {
@@ -27,7 +28,7 @@ export const useUserStore = defineStore('user', {
         this.subtractUserGold(tank)
       }
     },
-    subtractUserGold(tank) {
+    subtractUserGold(tank: Tank) {
       this.user.gold = this.user.gold - tank.cost
     },
   }

@@ -8,9 +8,13 @@
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue'
 import { useTanksStore } from '@/store/tanks'
 import { useUserStore } from '@/store/user'
+
 import TankListItem from './TankListItem.vue'
+
+import type { Country, Tank } from '@/types/types'
 
 export default {
   setup() {
@@ -28,12 +32,13 @@ export default {
       default: 1,
     },
     country: {
-      type: Object
+      type: Object as PropType<Country>,
+      required: true,
     }
   },
   methods: {
     getTanks(country: string, type: number) {
-      const tanks = this.tanksStore.tanks.filter((tank) => {
+      const tanks = this.tanksStore.tanks.filter((tank: Tank) => {
         return tank.name.toUpperCase().indexOf(this.tanksStore.filter.toUpperCase()) >= 0
           && tank.country.name === country
           && tank.type === type

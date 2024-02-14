@@ -1,5 +1,5 @@
 <template>
-  <v-list-item :title="tank.name" class="pa-0" @click="buyTank(tank)">
+  <v-list-item link :title="tank.name" class="pa-0">
     <template #prepend>
       <v-avatar>
         <v-img :src="tank.image" cover />
@@ -13,8 +13,12 @@
 </template>
 
 <script lang="ts">
-import { useTanksStore } from '@/store/tanks';
-import { useUserStore } from '@/store/user';
+import { PropType } from 'vue'
+
+import { useTanksStore } from '@/store/tanks'
+import { useUserStore } from '@/store/user'
+
+import type { Tank } from '@/types/types'
 
 export default {
   setup() {
@@ -25,11 +29,12 @@ export default {
   },
   props: {
     tank: {
-      type: Object,
+      type: Object as PropType<Tank>,
+        required: true,
     }
   },
   methods: {
-    getTankCount(tank): {count: number} {
+    getTankCount(tank: Tank): {count: number} {
       return this.userStore.user.tanks.find(userTank => userTank._id === tank._id) || { count: 0 };
     },
   }

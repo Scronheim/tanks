@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
+import { Tank } from '@/types/types'
+
 export const useTanksStore = defineStore('tanks', {
   state: () => ({
-    filter: '',
-    tanks: [],
+    filter: <string> '',
+    tanks: <Tank[]> [],
     tankTypes: [
       {name: 'Лёгкие', icon: 'mdi-cards-diamond'},
       {name: 'Средние', icon: 'mdi-cards-diamond'},
