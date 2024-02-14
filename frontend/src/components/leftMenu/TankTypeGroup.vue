@@ -1,0 +1,45 @@
+<template>
+  <v-list-group>
+    <template v-slot:activator="{ props }">
+      <v-list-item v-bind="props" :title="title"></v-list-item>
+    </template>
+    <TankListItem v-for="tank in getTanks(country.name, typeNumber)" :key="tank.name" :tank="tank" />
+  </v-list-group>
+</template>
+
+<script lang="ts">
+import { useTanksStore } from '@/store/tanks'
+import { useUserStore } from '@/store/user'
+import TankListItem from './TankListItem.vue'
+
+export default {
+  setup() {
+    const tanksStore = useTanksStore()
+    const userStore = useUserStore()
+
+    return { tanksStore, userStore }
+  },
+  props: {
+    title: {
+      type: String
+    },
+    typeNumber: {
+      type: Number,
+      default: 1,
+    },
+    country: {
+      type: Object
+    }
+  },
+  methods: {
+    getTanks(country: string, type: number) {
+      return this.tanksStore.tanks.filter((tank) => {
+        return tank.name.toUpperCase().indexOf(this.tanksStore.filter.toUpperCase()) >= 0
+         && tank.country.name === country
+         && tank.type === type
+      })
+    },
+  },
+  components: { TankListItem }
+}
+</script>
