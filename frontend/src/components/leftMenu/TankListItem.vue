@@ -8,7 +8,6 @@
     <template #append>
       <v-icon :icon="`mdi-roman-numeral-${tank.level}`" />
       <v-chip color="blue">{{ getTankCount(tank).count }}</v-chip>
-      <v-chip class="ml-2" color="yellow">{{ tank.cost }}<v-icon icon="mdi-currency-rub" size="13" /></v-chip>
     </template>
   </v-list-item>
 </template>
@@ -30,29 +29,8 @@ export default {
     }
   },
   methods: {
-    subtractUserGold(tank) {
-      this.userStore.user.gold = this.userStore.user.gold - tank.cost
-    },
-    checkBeforeBuy(tank): boolean {
-      const tankCost = tank.cost
-      if (this.userStore.user.gold > tankCost) {
-        return true
-      }
-      return false
-    },
-    buyTank(tank) {
-      if (this.checkBeforeBuy(tank)) {
-        const userTank = this.userStore.user.tanks.find(userTank => userTank.image === tank.image)
-        if (userTank) {
-          userTank.count++
-        } else {
-          this.userStore.user.tanks.push({ image: tank.image, count: 1 })
-        }
-        this.subtractUserGold(tank)
-      }
-    },
-    getTankCount(tank): number {
-      return this.userStore.user.tanks.find(userTank => userTank.image === tank.image) || { count: 0 };
+    getTankCount(tank): {count: number} {
+      return this.userStore.user.tanks.find(userTank => userTank._id === tank._id) || { count: 0 };
     },
   }
 }

@@ -33,11 +33,19 @@ export default {
   },
   methods: {
     getTanks(country: string, type: number) {
-      return this.tanksStore.tanks.filter((tank) => {
+      const tanks = this.tanksStore.tanks.filter((tank) => {
         return tank.name.toUpperCase().indexOf(this.tanksStore.filter.toUpperCase()) >= 0
-         && tank.country.name === country
-         && tank.type === type
+          && tank.country.name === country
+          && tank.type === type
       })
+      
+      const result = []
+      for (const tank of tanks) {
+        if (this.userStore.user.tanks.some(t => t._id === tank._id)) {
+          result.push(tank)
+        }
+      }
+      return result
     },
   },
   components: { TankListItem }

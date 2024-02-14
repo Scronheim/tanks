@@ -25,11 +25,17 @@
         <v-icon icon="mdi-star" size="10" /><span class="text-green pa-1">{{ searchedTank.unlockExp }}</span>
         <v-icon icon="mdi-currency-rub" size="10" /><span class="text-yellow pa-1">{{ searchedTank.cost }}</span>
       </v-card-subtitle>
-      <v-card-text>{{ searchedTank.description }}</v-card-text>
+      <v-card-text>
+        <p>{{ searchedTank.description }}</p>
+        <TurretIcon/>
+        <RadioIcon/>
+        <EngineIcon/>
+        <SuspensionIcon/>
+      </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn color="success">Исследовать</v-btn>
-        <v-btn color="yellow">Купить</v-btn>
+        <v-btn color="yellow" :disabled="buyIsDisabled" @click="buyTank">Купить</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
@@ -37,12 +43,19 @@
 
 <script lang="ts">
 import { useTanksStore } from '@/store/tanks'
+import { useUserStore } from '@/store/user'
+
+import TurretIcon from './TurretIcon.vue'
+import EngineIcon from './EngineIcon.vue'
+import RadioIcon from './RadioIcon.vue'
+import SuspensionIcon from './SuspensionIcon.vue'
 
 export default {
   setup() {
     const tanksStore = useTanksStore()
+    const userStore = useUserStore()
 
-    return { tanksStore }
+    return { tanksStore, userStore }
   },
   props: {
     tankName: {
@@ -52,6 +65,9 @@ export default {
     }
   },
   computed: {
+    buyIsDisabled() {
+      return this.userStore.user.gold < this.searchedTank.cost
+    },
     searchedTank() {
       return this.tanksStore.tanks.find(tank => tank.name === this.tankName) || this.defaultTank
     },
@@ -75,6 +91,12 @@ export default {
         cost: 0,
       }
     }
-  }
+  },
+  methods: {
+    buyTank() {
+      this.userStore.buyTank(this.searchedTank)
+    }
+  },
+  components: { TurretIcon, EngineIcon, RadioIcon, SuspensionIcon }
 }
 </script>
