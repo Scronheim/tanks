@@ -8,11 +8,11 @@ export const useTanksStore = defineStore('tanks', {
     filter: <string> '',
     tanks: <Tank[]> [],
     tankTypes: [
-      {name: 'Лёгкие', icon: 'mdi-cards-diamond'},
-      {name: 'Средние', icon: 'mdi-cards-diamond'},
-      {name: 'Тяжелые', icon: 'mdi-cards-diamond'},
-      {name: 'ПТ-САУ', icon: 'mdi-cards-diamond'},
-      {name: 'САУ', icon: 'mdi-cards-diamond'},
+      {name: 'Лёгкие', icon: '/images/lightTank.png'},
+      {name: 'Средние', icon: '/images/mediumTank.png'},
+      {name: 'Тяжелые', icon: '/images/heavyTank.png', angle: 90},
+      {name: 'ПТ-САУ', icon: '/images/AT-SPG.png'},
+      {name: 'САУ', icon: '/images/SPG.png'},
     ],
   }),
   actions: {

@@ -12,25 +12,31 @@
         </template>
         <template #append>
           <v-icon :icon="tankLevelIcon" size="15" />
-          <v-icon :icon="tankTypeIcon" size="10" />
+          <v-img :src="tankTypeIcon" width="15" cover />
         </template>
       </v-btn>
     </template>
     <v-card maxWidth="500">
       <v-card-title>Описание танка {{ searchedTank.name }}</v-card-title>
       <v-card-subtitle>
-        <v-icon :icon="tankLevelIcon" size="25" />
-        <v-icon :icon="tankTypeIcon" size="12" class="mr-3"/>
-        
+        <v-row>
+          <v-col cols="1">
+            <v-icon :icon="tankLevelIcon" size="25" />
+          </v-col>
+          <v-col>
+            <v-img :src="tankTypeIcon" width="20" height="25" />
+          </v-col>
+        </v-row>
+
         <v-icon icon="mdi-star" size="10" class="pb-1" /><span class="text-green pa-1">{{ searchedTank.unlockExp }}</span>
         <span class="text-yellow pa-1">{{ formattedCost }}</span>
       </v-card-subtitle>
       <v-card-text>
         <p>{{ searchedTank.description }}</p>
-        <TurretIcon/>
-        <RadioIcon/>
-        <EngineIcon/>
-        <SuspensionIcon/>
+        <TurretIcon />
+        <RadioIcon />
+        <EngineIcon />
+        <SuspensionIcon />
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -91,10 +97,10 @@ export default {
   },
   data() {
     return {
-      menu: <boolean> false,
-      defaultTank: <Tank> {
+      menu: <boolean>false,
+      defaultTank: <Tank>{
         _id: '',
-        country: {name: '', icon: ''},
+        country: { name: '', icon: '' },
         level: 1,
         type: 1,
         icon: '',
@@ -114,3 +120,9 @@ export default {
   components: { TurretIcon, EngineIcon, RadioIcon, SuspensionIcon }
 }
 </script>
+
+<style scope>
+.rotateTypeIcon {
+  rotate: 140deg;
+}
+</style>
